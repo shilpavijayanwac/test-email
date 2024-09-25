@@ -10,20 +10,15 @@ let transporter = nodemailer.createTransport({
 console.log("commit here =====>");
 console.log(process.env.GITHUB_COMMIT_MESSAGE);
 
-transporter.sendMail(
-  {
-    from: "example@example.com",
-    to: "recipient@example.com",
-    subject: "GitHub Action Email",
-    text: 'This is a test email sent from GitHub Actions using Nodemailer! 
-                Here is the commit message: 
-                Cool',
-  },
-  (err, info) => {
+transporter.sendMail({
+    from: 'example@example.com',  
+    to: 'recipient@example.com',   
+    subject: 'GitHub Action Email',
+    text: 'This is a test email sent from GitHub Actions using Nodemailer! <br> Cool'
+  }, (err, info) => {
     if (err) {
       console.error(err);
     } else {
-      console.log("Email sent: " + info.response);
+      console.log('Email sent: ' + info.response);
     }
-  }
-);
+  });
