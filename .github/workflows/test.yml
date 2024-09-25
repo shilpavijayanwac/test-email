@@ -42,7 +42,7 @@ jobs:
           from: 'example@example.com',  
           to: 'recipient@example.com',   
           subject: 'GitHub Action Email',
-          text: 'This is a test email sent from GitHub Actions using Nodemailer!'
+          text: 'This is a test email sent from GitHub Actions using Nodemailer! <br> Cool'
         }, (err, info) => {
           if (err) {
             console.error(err);
