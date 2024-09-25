@@ -15,9 +15,9 @@ transporter.sendMail(
     from: "example@example.com",
     to: "recipient@example.com",
     subject: "GitHub Action Email",
-    text: `This is a test email sent from GitHub Actions using Nodemailer! 
+    text: 'This is a test email sent from GitHub Actions using Nodemailer! 
                 Here is the commit message: 
-                Cool`,
+                Cool',
   },
   (err, info) => {
     if (err) {
