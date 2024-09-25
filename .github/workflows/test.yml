@@ -1,4 +1,4 @@
-name: Hello World & Send Email on Push
+name: Send Email
 
 on:
   push:
@@ -6,50 +6,48 @@ on:
       - main
 
 jobs:
-  say-hello:
+  send_email:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v2
 
-      - name: Print Hello World message
-        run: echo "Hello, World!"
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Specify the Node.js version you want to use
 
-  send-email:
-    runs-on: ubuntu-latest
+    - name: Install Nodemailer
+      run: npm install nodemailer
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Send Email via Mailtrap
-        env:
-          MAILTRAP_USERNAME: a6928cec736af1
-          MAILTRAP_PASSWORD: 967757816e8c37
-          MAILTRAP_HOST: sandbox.smtp.mailtrap.io
-          MAILTRAP_PORT: 2525
-        run: |
-          echo "Installing msmtp..."
-          sudo apt-get update && sudo apt-get install -y msmtp
-
-          echo "Configuring msmtp for Mailtrap..."
-          echo "defaults" > ~/.msmtprc
-          echo "auth on" >> ~/.msmtprc
-          echo "tls on" >> ~/.msmtprc
-          echo "tls_starttls on" >> ~/.msmtprc
-          echo "logfile ~/.msmtp.log" >> ~/.msmtprc
-          echo "account mailtrap" >> ~/.msmtprc
-          echo "host $MAILTRAP_HOST" >> ~/.msmtprc
-          echo "port $MAILTRAP_PORT" >> ~/.msmtprc
-          echo "user $MAILTRAP_USERNAME" >> ~/.msmtprc
-          echo "password $MAILTRAP_PASSWORD" >> ~/.msmtprc
-          echo "from sender@example.com" >> ~/.msmtprc
-          echo "account default : mailtrap" >> ~/.msmtprc
-          chmod 600 ~/.msmtprc
-
-          echo "Sending test email..."
-          echo "A new push has been made to the repository!" | msmtp -a mailtrap recipient@example.com
-
-          echo "Email sent! Check msmtp log..."
-          cat ~/.msmtp.log
+    - name: Send Email with Nodemailer
+      env:
+        MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
+        MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
+        MAILTRAP_HOST: sandbox.smtp.mailtrap.io
+        MAILTRAP_PORT: 2525
+      run: |
+        node -e "
+        const nodemailer = require('nodemailer');
+        let transporter = nodemailer.createTransport({
+          host: process.env.MAILTRAP_HOST,
+          port: process.env.MAILTRAP_PORT,
+          auth: {
+            user: process.env.MAILTRAP_USERNAME,
+            pass: process.env.MAILTRAP_PASSWORD
+          }
+        });
+        transporter.sendMail({
+          from: 'example@example.com',  # Replace with your sender email
+          to: 'recipient@example.com',   # Replace with your recipient email
+          subject: 'GitHub Action Email',
+          text: 'This is a test email sent from GitHub Actions using Nodemailer!'
+        }, (err, info) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+        "
