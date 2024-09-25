@@ -25,10 +25,10 @@ jobs:
 
       - name: Send Email via Mailtrap
         env:
-          MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
-          MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
-          MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
-          MAILTRAP_PORT: ${{ secrets.MAILTRAP_PORT }}
+          MAILTRAP_USERNAME: "a6928cec736af1"
+          MAILTRAP_PASSWORD: "967757816e8c37"
+          MAILTRAP_HOST: "2525"
+          MAILTRAP_PORT: "sandbox.smtp.mailtrap.io"
         run: |
           echo "Installing msmtp..."
           sudo apt-get update && sudo apt-get install -y msmtp
