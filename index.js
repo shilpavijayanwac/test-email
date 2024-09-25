@@ -7,7 +7,7 @@ let transporter = nodemailer.createTransport({
     pass: process.env.MAILTRAP_PASSWORD,
   },
 });
-console.log("commit here =====>");
+console.log("commit here dddd =====>");
 console.log(process.env.GITHUB_COMMIT_MESSAGE);
 
 transporter.sendMail({
