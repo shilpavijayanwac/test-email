@@ -38,8 +38,7 @@ jobs:
             pass: process.env.MAILTRAP_PASSWORD
           }
         });
-        console.log("commit")
-        console.log(${{ github.event.workflow_run.head_commit.message }})
+          console.log('commit');
 
         transporter.sendMail({
           from: 'example@example.com',  
