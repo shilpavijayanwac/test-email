@@ -30,16 +30,26 @@ jobs:
           MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
           MAILTRAP_PORT: ${{ secrets.MAILTRAP_PORT }}
         run: |
-          echo "Sending email via Mailtrap"
-          sudo apt-get update && sudo apt-get install -y ssmtp
-          echo "root=postmaster" | sudo tee /etc/ssmtp/ssmtp.conf
-          echo "mailhub=$MAILTRAP_HOST:$MAILTRAP_PORT" | sudo tee -a /etc/ssmtp/ssmtp.conf
-          echo "AuthUser=$MAILTRAP_USERNAME" | sudo tee -a /etc/ssmtp/ssmtp.conf
-          echo "AuthPass=$MAILTRAP_PASSWORD" | sudo tee -a /etc/ssmtp/ssmtp.conf
-          echo "UseTLS=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
-          echo "UseSTARTTLS=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
-          echo "From: sender@example.com" > /tmp/email.txt
-          echo "To: recipient@example.com" >> /tmp/email.txt
-          echo "Subject: New Push Notification" >> /tmp/email.txt
-          echo "A new push has been made to the repository!" >> /tmp/email.txt
-          sudo ssmtp recipient@example.com < /tmp/email.txt
+          echo "Installing msmtp..."
+          sudo apt-get update && sudo apt-get install -y msmtp
+
+          echo "Configuring msmtp for Mailtrap..."
+          echo "defaults" > ~/.msmtprc
+          echo "auth on" >> ~/.msmtprc
+          echo "tls on" >> ~/.msmtprc
+          echo "tls_starttls on" >> ~/.msmtprc
+          echo "logfile ~/.msmtp.log" >> ~/.msmtprc
+          echo "account mailtrap" >> ~/.msmtprc
+          echo "host $MAILTRAP_HOST" >> ~/.msmtprc
+          echo "port $MAILTRAP_PORT" >> ~/.msmtprc
+          echo "user $MAILTRAP_USERNAME" >> ~/.msmtprc
+          echo "password $MAILTRAP_PASSWORD" >> ~/.msmtprc
+          echo "from sender@example.com" >> ~/.msmtprc
+          echo "account default : mailtrap" >> ~/.msmtprc
+          chmod 600 ~/.msmtprc
+
+          echo "Sending test email..."
+          echo "A new push has been made to the repository!" | msmtp -a mailtrap recipient@example.com
+
+          echo "Email sent! Check msmtp log..."
+          cat ~/.msmtp.log
