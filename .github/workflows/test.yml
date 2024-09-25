@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'  # Specify the Node.js version you want to use
+        node-version: '16' 
 
     - name: Install Nodemailer
       run: npm install nodemailer
