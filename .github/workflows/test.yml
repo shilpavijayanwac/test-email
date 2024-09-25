@@ -30,4 +30,4 @@ jobs:
         GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}  # Capture the commit message
 
       run: |
-        node -e index.js
+        node index.js
