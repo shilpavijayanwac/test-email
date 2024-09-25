@@ -31,15 +31,15 @@ jobs:
           MAILTRAP_PORT: '25'
         run: |
           echo "Sending email via Mailtrap"
-          apt-get update && apt-get install -y ssmtp
-          echo "root=postmaster" > /etc/ssmtp/ssmtp.conf
-          echo "mailhub=$MAILTRAP_HOST:$MAILTRAP_PORT" >> /etc/ssmtp/ssmtp.conf
-          echo "AuthUser=$MAILTRAP_USERNAME" >> /etc/ssmtp/ssmtp.conf
-          echo "AuthPass=$MAILTRAP_PASSWORD" >> /etc/ssmtp/ssmtp.conf
-          echo "UseTLS=YES" >> /etc/ssmtp/ssmtp.conf
-          echo "UseSTARTTLS=YES" >> /etc/ssmtp/ssmtp.conf
+          sudo apt-get update && sudo apt-get install -y ssmtp
+          echo "root=postmaster" | sudo tee /etc/ssmtp/ssmtp.conf
+          echo "mailhub=$MAILTRAP_HOST:$MAILTRAP_PORT" | sudo tee -a /etc/ssmtp/ssmtp.conf
+          echo "AuthUser=$MAILTRAP_USERNAME" | sudo tee -a /etc/ssmtp/ssmtp.conf
+          echo "AuthPass=$MAILTRAP_PASSWORD" | sudo tee -a /etc/ssmtp/ssmtp.conf
+          echo "UseTLS=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
+          echo "UseSTARTTLS=YES" | sudo tee -a /etc/ssmtp/ssmtp.conf
           echo "From: sender@example.com" > /tmp/email.txt
           echo "To: recipient@example.com" >> /tmp/email.txt
           echo "Subject: New Push Notification" >> /tmp/email.txt
           echo "A new push has been made to the repository!" >> /tmp/email.txt
-          ssmtp recipient@example.com < /tmp/email.txt
+          sudo ssmtp recipient@example.com < /tmp/email.txt
