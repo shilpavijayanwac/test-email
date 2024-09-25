@@ -25,10 +25,10 @@ jobs:
 
       - name: Send Email via Mailtrap
         env:
-          MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
-          MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
-          MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
-          MAILTRAP_PORT: ${{ secrets.MAILTRAP_PORT }}
+          MAILTRAP_USERNAME: 'a6928cec736af1'
+          MAILTRAP_PASSWORD: '967757816e8c37'
+          MAILTRAP_HOST: 'sandbox.smtp.mailtrap.io'
+          MAILTRAP_PORT: '25'
         run: |
           echo "Sending email via Mailtrap"
           apt-get update && apt-get install -y ssmtp
