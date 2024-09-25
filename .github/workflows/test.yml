@@ -47,7 +47,7 @@ jobs:
           from: 'example@example.com',  
           to: 'recipient@example.com',   
           subject: 'GitHub Action Email',
-          text: 1This is a test email sent from GitHub Actions using Nodemailer! 
+          text: 'This is a test email sent from GitHub Actions using Nodemailer! 
                  Here is the commit message: ' + process.env.GITHUB_COMMIT_MESSAGE + '
                  Cool'
         }, (err, info) => {
