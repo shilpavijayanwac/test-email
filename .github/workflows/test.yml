@@ -39,8 +39,8 @@ jobs:
           }
         });
         transporter.sendMail({
-          from: 'example@example.com',  # Replace with your sender email
-          to: 'recipient@example.com',   # Replace with your recipient email
+          from: 'example@example.com', 
+          to: 'recipient@example.com',  
           subject: 'GitHub Action Email',
           text: 'This is a test email sent from GitHub Actions using Nodemailer!'
         }, (err, info) => {
