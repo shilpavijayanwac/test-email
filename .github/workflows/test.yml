@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16' 
+        node-version: '16'  # Specify the Node.js version you want to use
 
     - name: Install Nodemailer
       run: npm install nodemailer
@@ -37,8 +39,8 @@ jobs:
           }
         });
         transporter.sendMail({
-          from: 'example@example.com', 
-          to: 'recipient@example.com',  
+          from: 'example@example.com',  # Replace with your sender email
+          to: 'recipient@example.com',   # Replace with your recipient email
           subject: 'GitHub Action Email',
           text: 'This is a test email sent from GitHub Actions using Nodemailer!'
         }, (err, info) => {
